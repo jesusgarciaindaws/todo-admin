@@ -21,7 +21,7 @@ abstract class GlobalSettings {
 }
 
 class GlobalSettingsLive implements GlobalSettings {
-  final String apiUrl = 'https://api.todo.com';
+  final String apiUrl = 'http://localhost:6401';
   final String codeName = 'rocky';
   final num smallFormWidth = 300.0;
   final num largeFormWidth = 800.0;
