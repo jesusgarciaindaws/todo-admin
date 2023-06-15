@@ -6,6 +6,7 @@ import 'package:todo_admin/middleware/page_meta.dart';
 import 'package:todo_admin/pages/private/home.dart';
 import 'package:todo_admin/pages/private/options/index.dart';
 import 'package:todo_admin/pages/private/options/profile.dart';
+import 'package:todo_admin/pages/private/tasks/list.dart';
 import 'package:todo_admin/pages/private/users/list.dart';
 import 'package:todo_admin/widgets/blocks/build.dart';
 import 'package:todo_admin/widgets/components/header.dart';
@@ -17,6 +18,7 @@ class PrivateContainer extends anxeb.PageContainer<Application, PageMeta> {
     return [
       () => HomePage(),
       () => UsersPage(),
+      () => TasksPage(),
       () => OptionsPage(),
       () => ProfilePage(),
     ];
@@ -44,10 +46,13 @@ class PrivateContainer extends anxeb.PageContainer<Application, PageMeta> {
                       child: anxeb.PageNavigator(
                         application: application,
                         backgroundColor: Global.settings.menuFillColor,
-                        isActive: (item) => info.name.endsWith(item.key) == true,
+                        isActive: (item) =>
+                            info.name.endsWith(item.key) == true,
                         isVisible: () => application.session.authenticated,
                         roles: () => application.session.roles != null
-                            ? application.session.roles.map((e) => e.toString().split('.')[1]).toList()
+                            ? application.session.roles
+                                .map((e) => e.toString().split('.')[1])
+                                .toList()
                             : ['any'],
                         groups: () => [
                           anxeb.MenuGroup(
@@ -55,6 +60,12 @@ class PrivateContainer extends anxeb.PageContainer<Application, PageMeta> {
                             key: 'home',
                             icon: Global.icons.home,
                             onTab: () async => go('/home'),
+                          ),
+                          anxeb.MenuGroup(
+                            caption: () => 'Tareas',
+                            key: 'tasks',
+                            icon: Global.icons.tasks,
+                            onTab: () async => go('/tasks'),
                           ),
                           anxeb.MenuGroup(
                             caption: () => 'Usuarios',
@@ -88,9 +99,11 @@ class PrivateContainer extends anxeb.PageContainer<Application, PageMeta> {
                           application.session.logout();
                         },
                         enableFeedback: true,
-                        borderRadius: const BorderRadius.all(Radius.circular(0)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(0)),
                         child: Container(
-                          padding: const EdgeInsets.only(left: 6, right: 12, top: 6, bottom: 6),
+                          padding: const EdgeInsets.only(
+                              left: 6, right: 12, top: 6, bottom: 6),
                           width: 120,
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
@@ -127,7 +140,8 @@ class PrivateContainer extends anxeb.PageContainer<Application, PageMeta> {
                       children: [
                         Expanded(
                           child: Container(
-                            color: Global.settings.menuFillColor.withOpacity(0.1),
+                            color:
+                                Global.settings.menuFillColor.withOpacity(0.1),
                             child: MenuComponent(
                               application: application,
                             ),
