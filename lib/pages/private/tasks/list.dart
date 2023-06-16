@@ -93,15 +93,15 @@ class _TasksState extends anxeb.PageView<TasksPage, Application, PageMeta> {
         await scope.busy();
       }
       scope.retick();
-      final data = await session.api.get('/users');
+      final data = await session.api.get('/tasks');
       _users = data.list((data) => UserModel(data));
 
       if (_users.isEmpty) {
-        meta.subtitle = 'Registro de usuarios del sistema';
+        meta.subtitle = 'Registro de tareas del sistema';
       } else if (_users.length == 1) {
-        meta.subtitle = 'Existe un usuario registrado';
+        meta.subtitle = 'Existe una tarea registrado';
       } else {
-        meta.subtitle = 'Existen ${_users.length} usuarios registrados';
+        meta.subtitle = 'Existen ${_users.length} tareas registradas';
       }
 
       if (jump == true && _scrollController.hasClients) {
@@ -130,7 +130,7 @@ class _TasksState extends anxeb.PageView<TasksPage, Application, PageMeta> {
     if (users == null && _refreshing == true) {
       return anxeb.EmptyBlock(
         scope: scope,
-        message: 'Cargando usuarios...',
+        message: 'Cargando tareas...',
         icon: Icons.sync,
       );
     }
